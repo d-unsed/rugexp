@@ -4,7 +4,7 @@
 extern crate regex;
 
 use regex::Regex;
-use ruru::{AnyObject, Boolean, Class, Fixnum, NilClass, Object, RString};
+use ruru::{AnyObject, Boolean, Class, Object, RString};
 
 wrappable_struct! {
     Regex,
