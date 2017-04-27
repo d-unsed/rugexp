@@ -19,13 +19,13 @@ methods!(
     itself,
 
     fn rugexp_new(pattern: RString) -> AnyObject {
-        let regex = Regex::new(&pattern.unwrap().to_str()).unwrap();
+        let regex = Regex::new(&pattern.unwrap().to_str_unchecked()).unwrap();
 
         Class::from_existing("Rugexp").wrap_data(regex, &*REGEX_WRAPPER)
     }
 
     fn rugexp_match_q(string: RString) -> Boolean {
-        let result = itself.get_data(&*REGEX_WRAPPER).is_match(string.unwrap().to_str());
+        let result = itself.get_data(&*REGEX_WRAPPER).is_match(string.unwrap().to_str_unchecked());
 
         Boolean::new(result)
     }
