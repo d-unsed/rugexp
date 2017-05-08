@@ -4,7 +4,7 @@
 extern crate regex;
 
 use regex::Regex;
-use ruru::{AnyObject, Boolean, Class, Object, RString};
+use ruru::{AnyObject, Array, Boolean, Class, NilClass, Object, RString};
 
 wrappable_struct! {
     Regex,
@@ -29,12 +29,26 @@ methods!(
 
         Boolean::new(result)
     }
+
+    fn rugexp_match(string: RString) -> AnyObject {
+        itself
+            .get_data(&*REGEX_WRAPPER)
+            .captures_iter(&string.unwrap().to_str_unchecked())
+            .nth(0)
+            .map(|m| {
+                m.iter()
+                    .map(|e| RString::new(e.unwrap()).to_any_object())
+                    .collect::<Array>()
+                    .to_any_object()
+            }).unwrap_or(NilClass::new().to_any_object())
+    }
 );
 
 pub fn define_class() {
     Class::new("Rugexp", None).define(|itself| {
         itself.def_self("new", rugexp_new);
 
+        itself.def("match", rugexp_match);
         itself.def("match?", rugexp_match_q);
     });
 }
