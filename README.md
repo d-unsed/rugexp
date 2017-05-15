@@ -9,6 +9,9 @@ exp = Rugexp.new('^\d{4}-\d{2}-\d{2}$')
 
 exp.match?("2017-01-01") # => true
 exp.match?("Github") # => false
+
+exp.match("2017-01-01") # => 0
+exp.match("Github") # => nil
 ```
 
 ## License
